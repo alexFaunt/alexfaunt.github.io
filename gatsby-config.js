@@ -1,5 +1,8 @@
 module.exports = {
-  pathPrefix: '/glasto-webcam-gif',
+  // pathPrefix: '/glasto-webcam-gif',
+  siteMetadata: {
+    siteUrl: 'https://www.glastolapse.com',
+  },
 
   plugins: [
     {
