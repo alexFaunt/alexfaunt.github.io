@@ -65,7 +65,7 @@ const downloadImageIfExists = async ({ localFilePath, remoteFilePath }) => {
 
   // File doesn't exist
   if (!response) {
-    console.debug('no image', url);
+    // console.debug('no image', url);
     return null;
   }
 
@@ -74,7 +74,7 @@ const downloadImageIfExists = async ({ localFilePath, remoteFilePath }) => {
 
   return new Promise((resolve, reject) => {
     writer.on('finish', () => {
-      console.debug('success', url);
+      // console.debug('success', url);
       resolve(localFilePath);
     })
     writer.on('error', async () => {
