@@ -1,8 +1,6 @@
-name: Gatsby Publish
+name: Gatsby Publish (without video)
 
-on:
-  schedule:
-    - cron: '0 23 * 5,6,7 *'
+on: workflow_dispatch
 
 jobs:
   build:
@@ -18,12 +16,6 @@ jobs:
 
       - name: Install NPM
         run: npm install --frozen-lockfile
-
-      - name: Install ffmpeg
-        uses: FedericoCarboni/setup-ffmpeg@v1
-
-      - name: Build Video
-        run: npm run daily-video-build
 
       - name: Build Gatsby
         run: npm run gatsby-build
