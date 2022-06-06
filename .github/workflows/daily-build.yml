@@ -19,8 +19,11 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
-      - name: Install
+      - name: Install NPM
         run: npm install --frozen-lockfile
+
+      - name: Install ffmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v1
 
       - name: Build Video
         run: npm run daily-video-build

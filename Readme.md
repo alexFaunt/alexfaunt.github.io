@@ -9,6 +9,7 @@
 ## TODO - Fix skipped problems
 - Tabs for other dates, not just yesterday
 - We're downloading ALL the images every build which is madness
+  - github action cache ?
   - Host the videos somewhere else? github is not a good place for that
   - (maybe keep one day video statically, and the full one for hosting, and push the archive to youtube)
   - Also different resolutions
