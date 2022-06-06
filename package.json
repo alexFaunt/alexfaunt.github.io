@@ -4,11 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "download": "node ./src/download.js"
+    "daily-video-build": "node ./scripts/daily-video-build.js",
+    "gatsby-dev": "gatsby develop -H 0.0.0.0",
+    "gatsby-build": "gatsby build --prefix-paths",
+    "build": "npm run daily-video-build && npm run gatsby-build"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "gatsby": "^4.15.2",
+    "gatsby-plugin-styled-components": "^5.15.0",
+    "gatsby-plugin-use-query-params": "^1.0.1",
+    "join-images": "^1.1.3",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "sharp": "^0.30.6",
+    "styled-components": "^5.3.5",
+    "use-query-params": "^1.2.3"
   }
 }
