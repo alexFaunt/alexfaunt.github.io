@@ -106,9 +106,11 @@ const Home = ({ location }) => {
 
   const params = new URLSearchParams(location.search);
 
-  const targetDate = params.get('date') === ALL ? ALL : yesterdayPath;
-  const targetPath = targetDate === ALL ? year : targetDate;
+  const isAll = (params.get('date') || '').toLowerCase() === ALL;
 
+  const targetPath = isAll ? year : yesterdayPath;
+console.debug('isAll', isAll)
+console.debug('targetPath', targetPath)
   return (
     <div>
       <GlobalStyle />
@@ -120,8 +122,8 @@ const Home = ({ location }) => {
       </DonateBlock>
 
       <Tabs>
-        <DateTab href='/' selected={targetDate !== ALL}>yesterday</DateTab>
-        <DateTab href={`/?date=${ALL}`} selected={targetDate === ALL}>28th May to yesterday</DateTab>
+        <DateTab href='/' selected={!isAll}>yesterday</DateTab>
+        <DateTab href={`/?date=${ALL}`} selected={isAll}>28th May to yesterday</DateTab>
       </Tabs>
 
       <Caption>Zoomed view of the central festival</Caption>
