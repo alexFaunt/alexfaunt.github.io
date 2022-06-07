@@ -2,13 +2,23 @@ name: Build latest videos
 
 on:
   workflow_dispatch:
+    inputs:
+      targetDay:
+        description: 'Target day'
+        required: true
+        default: 'yesterday'
+        type: choice
+        options:
+        - today
+        - yesterday
   schedule:
-    - cron: '0 23 * 6 *'
-    - cron: '0 23 1-5 7 *'
+    - cron: '0 1 * 6 *'
+    - cron: '0 1 1-5 7 *'
 
 jobs:
   build-video:
     env:
+      TARGET_DAY: ${{ github.event.inputs.targetDay }}
       AWS_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
       AWS_EC2_METADATA_DISABLED: true
@@ -29,19 +39,19 @@ jobs:
         uses: FedericoCarboni/setup-ffmpeg@v1
 
       - name: Download ALL the images (TODO - better than this)
-        run: node ./scripts/download-year.js
+        run: node ./scripts/download-year.js ${{env.TARGET_DAY}}
 
-      - name: Build todays pyramid video
-        run: node ./scripts/process-target-day.js pyramid today
+      - name: Build ${{env.TARGET_DAY}}s pyramid video
+        run: node ./scripts/process-target-day.js pyramid ${{env.TARGET_DAY}}
 
-      - name: Push todays pyramid video to R2
+      - name: Push ${{env.TARGET_DAY}}s pyramid video to R2
         run: |
           aws s3 sync ./static/videos s3://videos --endpoint-url https://${{secrets.CF_ACCOUNT_ID}}.r2.cloudflarestorage.com --exclude="*" --include="*/*/*/*pyramid.mp4"
 
-      - name: Build todays panorama video
-        run: node ./scripts/process-target-day.js panorama today
+      - name: Build ${{env.TARGET_DAY}}s panorama video
+        run: node ./scripts/process-target-day.js panorama ${{env.TARGET_DAY}}
 
-      - name: Push todays panorama video to R2
+      - name: Push ${{env.TARGET_DAY}}s panorama video to R2
         run: |
           aws s3 sync ./static/videos s3://videos --endpoint-url https://${{secrets.CF_ACCOUNT_ID}}.r2.cloudflarestorage.com --exclude="*" --include="*/*/*/*panorama.mp4"
 

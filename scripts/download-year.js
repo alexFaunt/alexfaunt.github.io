@@ -10,9 +10,19 @@ const START_DATES = {
   2022: '2022-06-01',
 }
 
-const downloadYear = async () => {
+const TARGET_DAYS = {
+  yesterday: new Date(Date.now() - ONE_DAY),
+  today: new Date(),
+}
+const validDayTypes = Object.keys(TARGET_DAYS);
+
+const downloadYear = async (targetDay) => {
+  if (!validDayTypes.includes(targetDay)) {
+    throw new Error(`Supply a target end day ${validDayTypes.join(', ')}`)
+  }
+
   const startDate = new Date(START_DATES[new Date().getUTCFullYear()])
-  const endDate = new Date(extractDateString(new Date(Date.now() - ONE_DAY))); // yesterday
+  const endDate = new Date(extractDateString(TARGET_DAYS[targetDay])); // yesterday
   const days = ((endDate.getTime() - startDate.getTime()) / ONE_DAY) + 1; // plus one for inclusive
 
   const allDays = Array
@@ -28,4 +38,4 @@ const downloadYear = async () => {
   console.log('Fetched days', allDays.join(', '))
 }
 
-downloadYear();
+downloadYear(...process.argv.slice(2));

@@ -7,17 +7,23 @@ const shellOptions = {
   cwd: path.resolve(__dirname, '../'),
 }
 
-const DAY_TYPES = {
+const TARGET_DAYS = {
   yesterday: new Date(Date.now() - ONE_DAY),
   today: new Date(),
 }
 
-const run = async (videoType, dayType) => {
-  const targetDay = extractDateString(DAY_TYPES[dayType]).replace(/-/g, '/');
+const validDayTypes = Object.keys(TARGET_DAYS);
 
-  console.log(`===== Processing ${targetDay} ${videoType} video =====`)
+const run = async (videoType, targetDay) => {
+  if (!validDayTypes.includes(targetDay)) {
+    throw new Error(`Supply a target end day ${validDayTypes.join(', ')}`)
+  }
 
-  execSync(`./scripts/process-day.sh ${videoType} ${targetDay}`, shellOptions);
+  const targetDateString = extractDateString(TARGET_DAYS[targetDay]).replace(/-/g, '/');
+
+  console.log(`===== Processing ${videoType} ${targetDateString} video =====`)
+
+  execSync(`./scripts/process-day.sh ${videoType} ${targetDateString}`, shellOptions);
 }
 
 run(...process.argv.slice(2));
