@@ -121,12 +121,12 @@ const Home = () => {
 
       <Caption>Zoomed view of the central festival</Caption>
       <Video className="video" autoPlay muted controls>
-        <source src={`/videos/${targetPath}/pyramid.mp4`} type="video/mp4" />
+        <source src={`https://videos.glastolapse.com/${targetPath}/pyramid.mp4`} type="video/mp4" />
       </Video>
 
       <Caption>Full site panorama</Caption>
       <Video className="video" muted controls>
-        <source src={`/videos/${targetPath}/panorama.mp4`} type="video/mp4" />
+        <source src={`https://videos.glastolapse.com/${targetPath}/panorama.mp4`} type="video/mp4" />
       </Video>
     </div>
   )

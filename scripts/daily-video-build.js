@@ -8,6 +8,7 @@ const downloadDay = require('./download-day');
 const downloadYear = require('./download-year');
 
 // TOOD - accept args instead of guessing
+// TODO - break down script? so each one runs and we can see how long it took
 
 const targetDay = new Date().getHours() >= 23
   ? extractDateString(new Date())
