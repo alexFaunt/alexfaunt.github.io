@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 ARG_ERROR="Supply a target type (panorama | pyramid) and a year in format 2022"
+
 if [ -z "$1" ]
   then
     echo $ARG_ERROR

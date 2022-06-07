@@ -117,6 +117,7 @@ const PyramidOuter = styled.div`
 const PanoramaOuter = styled.div`
   width: 100%;
   position: relative;
+  margin-bottom: 2rem;
 
   &::after {
     content: '';

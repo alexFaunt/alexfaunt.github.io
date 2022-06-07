@@ -56,14 +56,14 @@ jobs:
           aws s3 sync ./static/videos s3://videos --endpoint-url https://${{secrets.CF_ACCOUNT_ID}}.r2.cloudflarestorage.com --exclude="*" --include="*/*/*/*panorama.mp4"
 
       - name: Build full pyramid video
-        run: node ./scripts/process-year.sh pyramid 2022
+        run: ./scripts/process-year.sh pyramid 2022
 
       - name: Push full pyramid video to R2
         run: |
           aws s3 sync ./static/videos s3://videos --endpoint-url https://${{secrets.CF_ACCOUNT_ID}}.r2.cloudflarestorage.com --exclude="*" --include="*pyramid.mp4" --exclude="*/*/*/*pyramid.mp4"
 
       - name: Build full panorama video
-        run: node ./scripts/process-year.sh panorama 2022
+        run: ./scripts/process-year.sh panorama 2022
 
       - name: Push full panorama video to R2
         run: |
