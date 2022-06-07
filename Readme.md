@@ -2,12 +2,14 @@
 
 ## TODO - MVP
 - google tracking
-- Build each day at the end of the day + update the full timelapse
 
 ## TODO - Fix skipped problems
-- Video compression / resolutions / 265 doesn't work
+- Upload timed out - need to break down the script / sync requests
+- cloudflare cache
+- Video compression / resolutions / just swapping to 265 doesn't work
 - Tabs for other dates, not just yesterday
 - We're downloading ALL the images every build which is madness
+  - just concat todays video onto yesterdays
   - github action cache ?
   - Host the videos somewhere else? github is not a good place for that
   - (maybe keep one day video statically, and the full one for hosting, and push the archive to youtube)

@@ -29,7 +29,7 @@ const SubTitle = styled.h2`
   font-size: 1rem;
 `;
 
-const DateTab = styled.button`
+const DateTab = styled.a`
   font-size: 1rem;
   padding: 0.2rem 0.1rem 0.6rem;
   margin: 0 0.5rem;
@@ -38,6 +38,7 @@ const DateTab = styled.button`
   border: 0;
   position: relative;
   transition: all 0.2s;
+  text-decoration: none;
 
   &::after {
     content: '';
@@ -105,9 +106,9 @@ const Home = () => {
   const yesterdayPath = extractDateString(new Date(Date.now() - ONE_DAY)).replace(/-/g, '/');
   const year = yesterdayPath.replace(/\/.*$/, '');
 
-  const [paramDate, setParamDate] = useQueryParam('date', StringParam);
+  const params = new URLSearchParams(window.location.search);
 
-  const targetDate = (paramDate || yesterdayPath).toLowerCase();
+  const targetDate = params.get('date') === ALL ? ALL : yesterdayPath;
   const targetPath = targetDate === ALL ? year : targetDate;
 
   const onYesterdayClick = useCallback(() => {
@@ -128,8 +129,8 @@ const Home = () => {
       </DonateBlock>
 
       <Tabs>
-        <DateTab selected={targetDate === yesterdayPath} onClick={onYesterdayClick}>yesterday</DateTab>
-        <DateTab selected={targetDate === ALL} onClick={onAllClick}>28th May to yesterday</DateTab>
+        <DateTab href='/' selected={targetDate !== ALL}>yesterday</DateTab>
+        <DateTab href={`/?date=${ALL}`} selected={targetDate === ALL}>28th May to yesterday</DateTab>
       </Tabs>
 
       <Caption>Zoomed view of the central festival</Caption>
