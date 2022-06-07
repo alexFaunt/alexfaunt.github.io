@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
+    "babel-plugin-styled-components": "^2.0.7",
     "gatsby": "^4.15.2",
     "gatsby-plugin-styled-components": "^5.15.0",
     "join-images": "^1.1.3",
