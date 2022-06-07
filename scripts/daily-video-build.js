@@ -4,7 +4,7 @@ const path = require('path');
 const { extractDateString, ONE_DAY } = require('../src/helpers');
 
 // Under normal circumstances we only need to download targetDay not all the days
-// const downloadDay = require('./download-day');
+const downloadDay = require('./download-day');
 const downloadYear = require('./download-year');
 
 const targetDay = new Date().getHours() >= 23
