@@ -5,7 +5,7 @@
 - Build each day at the end of the day + update the full timelapse
 
 ## TODO - Fix skipped problems
-- Video compression / resolutions
+- Video compression / resolutions / 265 doesn't work
 - Tabs for other dates, not just yesterday
 - We're downloading ALL the images every build which is madness
   - github action cache ?
