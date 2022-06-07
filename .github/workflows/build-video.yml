@@ -31,6 +31,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+          aws-region: auto
 
       - name: Push to R2
         run: |

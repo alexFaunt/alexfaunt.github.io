@@ -7,6 +7,8 @@ const { extractDateString, ONE_DAY } = require('../src/helpers');
 const downloadDay = require('./download-day');
 const downloadYear = require('./download-year');
 
+// TOOD - accept args instead of guessing
+
 const targetDay = new Date().getHours() >= 23
   ? extractDateString(new Date())
   : extractDateString(new Date(Date.now() - ONE_DAY));

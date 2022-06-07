@@ -1,10 +1,8 @@
 # Gif of glasto webcam
 
 ## TODO - MVP
-- Do tabs reload the page?
 - google tracking
-- Get a real url glastolapse.com?
-- Build each day at the end of the day + commit it + update the full timelapse
+- Build each day at the end of the day + update the full timelapse
 
 ## TODO - Fix skipped problems
 - Tabs for other dates, not just yesterday
