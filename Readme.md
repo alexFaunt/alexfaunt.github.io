@@ -1,6 +1,7 @@
 # Gif of glasto webcam
 
 ## TODO - Fix skipped problems
+- gatsby query params are fucked
 - Upload timed out - need to break down the script / sync requests
 - cloudflare cache
 - Video compression / resolutions / just swapping to 265 doesn't work

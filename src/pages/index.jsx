@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import WaterAid from '../atoms/water-aid';
@@ -27,7 +27,7 @@ const SubTitle = styled.h2`
   font-size: 1rem;
 `;
 
-const DateTab = styled.a`
+const DateTab = styled.button`
   font-size: 1rem;
   padding: 0.2rem 0.1rem 0.6rem;
   margin: 0 0.5rem;
@@ -104,13 +104,11 @@ const Home = ({ location }) => {
   const yesterdayPath = extractDateString(new Date(Date.now() - ONE_DAY)).replace(/-/g, '/');
   const year = yesterdayPath.replace(/\/.*$/, '');
 
-  const params = new URLSearchParams(location.search);
+  // TODO tried to put this in params but failed, gatsby static build is weird about it
+  const [showAll, setShowAll] = useState(false);
 
-  const isAll = (params.get('date') || '').toLowerCase() === ALL;
+  const targetPath = showAll ? year : yesterdayPath;
 
-  const targetPath = isAll ? year : yesterdayPath;
-console.debug('isAll', isAll)
-console.debug('targetPath', targetPath)
   return (
     <div>
       <GlobalStyle />
@@ -122,17 +120,18 @@ console.debug('targetPath', targetPath)
       </DonateBlock>
 
       <Tabs>
-        <DateTab href='/' selected={!isAll}>yesterday</DateTab>
-        <DateTab href={`/?date=${ALL}`} selected={isAll}>28th May to yesterday</DateTab>
+        <DateTab onClick={() => setShowAll(false)} selected={!showAll}>yesterday</DateTab>
+        <DateTab onClick={() => setShowAll(true)} selected={showAll}>28th May to yesterday</DateTab>
       </Tabs>
 
       <Caption>Zoomed view of the central festival</Caption>
-      <Video className="video" autoPlay muted controls loop>
+      {/* TODO hacky key swapping to force re-render. Just swapping out the url doesn't restart video */}
+      <Video className="video" autoPlay muted controls loop key={showAll ? 'all-1' : 'yday-1' }>
         <source src={`https://videos.glastolapse.com/${targetPath}/pyramid.mp4`} type="video/mp4" />
       </Video>
 
       <Caption>Full site panorama</Caption>
-      <Video className="video" muted controls loop>
+      <Video className="video" muted controls loop key={showAll ? 'all-2' : 'yday-2' }>
         <source src={`https://videos.glastolapse.com/${targetPath}/panorama.mp4`} type="video/mp4" />
       </Video>
 
