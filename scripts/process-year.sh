@@ -35,5 +35,5 @@ ffmpeg \
   -itsoffset $DELAY1 -framerate $FRAMERATE -pattern_type glob -i "${INPUT_GLOB}" \
   -itsoffset $DELAY2 -framerate $FRAMERATE -pattern_type glob -i "${INPUT_GLOB}" \
   -filter_complex "[1:v]format=yuva420p,colorchannelmixer=aa=0.8[content]; [2:v]format=yuva420p,colorchannelmixer=aa=0.2[trailing]; [0:v][content]overlay[temp], [temp][trailing]overlay" \
-  -c:v libx264 -pix_fmt yuv420p \
+  -c:v libx265 -pix_fmt yuv420p \
   $OUT_FILE
