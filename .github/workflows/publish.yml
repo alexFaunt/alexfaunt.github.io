@@ -1,6 +1,10 @@
-name: Gatsby Publish (without video)
+name: Gatsby Publish
 
-on: workflow_dispatch
+on:
+  workflow_dispatch
+  push:
+    branches:
+      - master
 
 jobs:
   build:
