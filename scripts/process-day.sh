@@ -31,11 +31,15 @@ DELAY2=0.16667 # 2 frame at 12 FPS
 # Combine the images at 12 FPS
 # Overlay a trailing and leading image at 0.2 opacity to smooth it
 ffmpeg \
+  -an \
   -framerate $FRAMERATE -pattern_type glob -i "${INPUT_GLOB}" \
   -itsoffset $DELAY1 -framerate $FRAMERATE -pattern_type glob -i "${INPUT_GLOB}" \
   -itsoffset $DELAY2 -framerate $FRAMERATE -pattern_type glob -i "${INPUT_GLOB}" \
   -filter_complex "[1:v]format=yuva420p,colorchannelmixer=aa=0.8[content]; [2:v]format=yuva420p,colorchannelmixer=aa=0.2[trailing]; [0:v][content]overlay[temp], [temp][trailing]overlay" \
-  -c:v libx264 -pix_fmt yuv420p \
+  -vcodec libx264 \
+  -pix_fmt yuv420p \
+  -profile:v baseline \
+  -level 3 \
   $OUT_FILE
 
 # Below is a way to do it with a single overlay, or no overlay just so i don't have to figure it out again if needed

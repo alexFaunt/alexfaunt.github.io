@@ -24,6 +24,7 @@
 - make the video zoomable
 
 ## Ideas
+- maybe just do 7 days?
 - timelapse of "Today so far" + build hourly
 - On the full render watermark the date or T -10 etc. onto it
 - Panorama could automatically pan across the site throughout the day - might miss stuff tho

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import WaterAid from '../atoms/water-aid';
-import { ONE_DAY, extractDateString } from '../helpers';
+import YouTube from 'react-youtube';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -93,21 +93,78 @@ const Tabs = styled.div`
   margin-bottom: 1.8rem;
 `;
 
+const Apology = styled.p`
+  font-size: 0.8rem;
+  color: grey;
+`
+
 const Disclaimer = styled.p`
   font-size: 0.6rem;
   color: grey;
 `;
 
-const ALL = 'all';
+const PyramidOuter = styled.div`
+  width: 100%;
+  position: relative;
+
+  &::after {
+    content: '';
+    display: block;
+    padding-bottom: ${(100 * 2048) / 3924}%; /* video resolution */
+  }
+`;
+
+const PanoramaOuter = styled.div`
+  width: 100%;
+  position: relative;
+
+  &::after {
+    content: '';
+    display: block;
+    padding-bottom: ${(100 * 800) / 4090}%; /* video resolution */
+  }
+`;
+
+const StyledYoutube = styled(YouTube)`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  .video-iframe {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+// TODO action to auto upload youtube videos and create a PR with new IDs
+// Seems like it doesn't exist...
+const DAY_PYRAMID_ID = '_Xs36WnHLnM';
+const FULL_PYRAMID_ID = 'KQUs56mtahw';
+
+const DAY_PANORAMA_ID = 'L6c60VSwehw';
+const FULL_PANORAMA_ID = 'f59TgIlQknI';
+
+const youtubeOpts = {
+  playerVars: {
+    autoplay: 1,
+    loop: 1,
+    modestbranding: 1,
+    rel: 0,
+    origin: 'https://glastolapse.com',
+    muted: 1,
+  },
+};
 
 const Home = ({ location }) => {
-  const yesterdayPath = extractDateString(new Date(Date.now() - ONE_DAY)).replace(/-/g, '/');
-  const year = yesterdayPath.replace(/\/.*$/, '');
-
   // TODO tried to put this in params but failed, gatsby static build is weird about it
   const [showAll, setShowAll] = useState(false);
 
-  const targetPath = showAll ? year : yesterdayPath;
+  const pyramidId = showAll ? DAY_PYRAMID_ID : FULL_PYRAMID_ID;
+  const panoramaId = showAll ? DAY_PANORAMA_ID : FULL_PANORAMA_ID;
 
   return (
     <div>
@@ -121,19 +178,30 @@ const Home = ({ location }) => {
 
       <Tabs>
         <DateTab onClick={() => setShowAll(false)} selected={!showAll}>yesterday</DateTab>
-        <DateTab onClick={() => setShowAll(true)} selected={showAll}>28th May to yesterday</DateTab>
+        <DateTab onClick={() => setShowAll(true)} selected={showAll}>1st June to yesterday</DateTab>
       </Tabs>
 
-      <Caption>Zoomed view of the central festival</Caption>
       {/* TODO hacky key swapping to force re-render. Just swapping out the url doesn't restart video */}
-      <Video className="video" autoPlay muted controls loop key={showAll ? 'all-1' : 'yday-1' }>
-        <source src={`https://videos.glastolapse.com/${targetPath}/pyramid.mp4`} type="video/mp4" />
-      </Video>
+      <div key={showAll ? 'all' : 'yday' }>
+        <Caption>Zoomed view of the pyramid area</Caption>
+        <PyramidOuter>
+          <StyledYoutube iframeClassName='video-iframe' videoId={pyramidId} opts={youtubeOpts} />
+        </PyramidOuter>
+        {/* <Video className="video" autoPlay muted controls loop key={showAll ? 'all-1' : 'yday-1' }>
+          <source src={`https://videos.glastolapse.com/${targetPath}/pyramid.mp4`} type="video/mp4" />
+        </Video> */}
 
-      <Caption>Full site panorama</Caption>
-      <Video className="video" muted controls loop key={showAll ? 'all-2' : 'yday-2' }>
-        <source src={`https://videos.glastolapse.com/${targetPath}/panorama.mp4`} type="video/mp4" />
-      </Video>
+        <Caption>Full site panorama</Caption>
+        <PanoramaOuter>
+          <StyledYoutube iframeClassName='video-iframe' videoId={panoramaId} opts={youtubeOpts} />
+        </PanoramaOuter>
+        {/* <Video className="video" muted controls loop key={showAll ? 'all-2' : 'yday-2' }>
+          <source src={`https://videos.glastolapse.com/${targetPath}/panorama.mp4`} type="video/mp4" />
+        </Video> */}
+      </div>
+      <Apology>
+        Sorry for the youtube links - the raw files are huge and struggling to host them effectively
+      </Apology>
 
       <Disclaimer>
         DISCLAIMER: This site is not affiliated with WaterAid, the BBC, Glastonbury Festivals, panomax, or any other company. The content here is created using images readily accessible on the web, I do not claim ownership or copyright over the source.

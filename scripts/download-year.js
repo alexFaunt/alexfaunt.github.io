@@ -7,7 +7,7 @@ const { ONE_DAY, extractDateString } = require('../src/helpers');
 // TODO accept args
 
 const START_DATES = {
-  2022: '2022-05-28',
+  2022: '2022-06-01',
 }
 
 const downloadYear = async () => {
@@ -28,4 +28,4 @@ const downloadYear = async () => {
   console.log('Fetched days', allDays.join(', '))
 }
 
-module.exports = downloadYear;
+downloadYear();

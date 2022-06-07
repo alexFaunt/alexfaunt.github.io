@@ -3,10 +3,15 @@ name: Build latest videos
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 23 * 5,6,7 *'
+    - cron: '0 23 * 6 *'
+    - cron: '0 23 1-5 7 *'
 
 jobs:
   build-video:
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+      AWS_EC2_METADATA_DISABLED: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,13 +28,33 @@ jobs:
       - name: Install ffmpeg
         uses: FedericoCarboni/setup-ffmpeg@v1
 
-      - name: Build Video
-        run: npm run daily-video-build
+      - name: Download ALL the images (TODO - better than this)
+        run: node ./scripts/download-year.js
 
-      - name: Push to R2
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
-          AWS_EC2_METADATA_DISABLED: true
+      - name: Build todays pyramid video
+        run: node ./scripts/process-target-day.js pyramid today
+
+      - name: Push todays pyramid video to R2
         run: |
-          aws s3 sync ./static/videos s3://videos --endpoint-url https://${{secrets.CF_ACCOUNT_ID}}.r2.cloudflarestorage.com --exclude"*.DS_Store"
+          aws s3 sync ./static/videos s3://videos --endpoint-url https://${{secrets.CF_ACCOUNT_ID}}.r2.cloudflarestorage.com --exclude="*" --include="*/*/*/*pyramid.mp4"
+
+      - name: Build todays panorama video
+        run: node ./scripts/process-target-day.js panorama today
+
+      - name: Push todays panorama video to R2
+        run: |
+          aws s3 sync ./static/videos s3://videos --endpoint-url https://${{secrets.CF_ACCOUNT_ID}}.r2.cloudflarestorage.com --exclude="*" --include="*/*/*/*panorama.mp4"
+
+      - name: Build full pyramid video
+        run: node ./scripts/process-year.sh pyramid 2022
+
+      - name: Push full pyramid video to R2
+        run: |
+          aws s3 sync ./static/videos s3://videos --endpoint-url https://${{secrets.CF_ACCOUNT_ID}}.r2.cloudflarestorage.com --exclude="*" --include="*pyramid.mp4" --exclude="*/*/*/*pyramid.mp4"
+
+      - name: Build full panorama video
+        run: node ./scripts/process-year.sh panorama 2022
+
+      - name: Push full panorama video to R2
+        run: |
+          aws s3 sync ./static/videos s3://videos --endpoint-url https://${{secrets.CF_ACCOUNT_ID}}.r2.cloudflarestorage.com --exclude="*" --include="*panorama.mp4" --exclude="*/*/*/*panorama.mp4"
