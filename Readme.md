@@ -23,6 +23,7 @@
   - check video against live cam to see if we've washed it out by processing
   - may need to boost brightness or something to compensate for the overlaying smoothing
   - https://ffmpeg.org/ffmpeg-filters.html#eq
+- make the video zoomable
 
 ## Ideas
 - timelapse of "Today so far" + build hourly

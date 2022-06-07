@@ -104,7 +104,7 @@ const Home = () => {
   const yesterdayPath = extractDateString(new Date(Date.now() - ONE_DAY)).replace(/-/g, '/');
   const year = yesterdayPath.replace(/\/.*$/, '');
 
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(typeof window === 'undefined' ? '' : global.location.search);
 
   const targetDate = params.get('date') === ALL ? ALL : yesterdayPath;
   const targetPath = targetDate === ALL ? year : targetDate;
