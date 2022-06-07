@@ -1,8 +1,5 @@
 # Gif of glasto webcam
 
-## TODO - MVP
-- google tracking
-
 ## TODO - Fix skipped problems
 - Upload timed out - need to break down the script / sync requests
 - cloudflare cache
