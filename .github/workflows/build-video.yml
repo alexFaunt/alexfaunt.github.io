@@ -26,10 +26,12 @@ jobs:
       - name: Build Video
         run: npm run daily-video-build
 
-      - name: Push to R2
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.CF_R2_SECRET_ACCESS_KEY }}
+
+      - name: Push to R2
         run: |
           aws s3 sync ./static/videos s3://videos --endpoint-url https://${secrets.CF_ACCOUNT_ID}.r2.cloudflarestorage.com --exclude .DS_Store
