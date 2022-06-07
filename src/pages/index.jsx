@@ -1,7 +1,5 @@
 import React from 'react';
-import { useCallback } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { useQueryParam, StringParam } from "use-query-params";
 
 import WaterAid from '../atoms/water-aid';
 import { ONE_DAY, extractDateString } from '../helpers';
@@ -110,13 +108,6 @@ const Home = () => {
 
   const targetDate = params.get('date') === ALL ? ALL : yesterdayPath;
   const targetPath = targetDate === ALL ? year : targetDate;
-
-  const onYesterdayClick = useCallback(() => {
-    setParamDate(yesterdayPath);
-  }, [setParamDate, yesterdayPath])
-  const onAllClick = useCallback(() => {
-    setParamDate(ALL);
-  }, [setParamDate])
 
   return (
     <div>
