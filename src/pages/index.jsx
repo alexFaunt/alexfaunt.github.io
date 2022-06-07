@@ -163,8 +163,8 @@ const Home = ({ location }) => {
   // TODO tried to put this in params but failed, gatsby static build is weird about it
   const [showAll, setShowAll] = useState(false);
 
-  const pyramidId = showAll ? DAY_PYRAMID_ID : FULL_PYRAMID_ID;
-  const panoramaId = showAll ? DAY_PANORAMA_ID : FULL_PANORAMA_ID;
+  const pyramidId = showAll ? FULL_PYRAMID_ID : DAY_PYRAMID_ID;
+  const panoramaId = showAll ? FULL_PANORAMA_ID : DAY_PANORAMA_ID;
 
   return (
     <div>
