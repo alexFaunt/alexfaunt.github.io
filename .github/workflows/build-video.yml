@@ -1,4 +1,4 @@
-name: Gatsby Publish
+name: Build latest videos
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     - cron: '0 23 * 5,6,7 *'
 
 jobs:
-  build:
+  build-video:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
