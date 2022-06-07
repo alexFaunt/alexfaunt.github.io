@@ -26,7 +26,7 @@ const Title = styled.h1`
 
 const SubTitle = styled.h2`
   ${title}
-  font-size: 1.2rem;
+  font-size: 1rem;
 `;
 
 const DateTab = styled.button`
@@ -37,6 +37,7 @@ const DateTab = styled.button`
   background: transparent;
   border: 0;
   position: relative;
+  transition: all 0.2s;
 
   &::after {
     content: '';
@@ -48,13 +49,19 @@ const DateTab = styled.button`
     height: 0.3rem;
     background: ${({ selected }) => selected ? 'blue' : 'transparent' };
   }
+
+  &:hover {
+    &::after {
+      background: ${({ selected }) => selected ? 'blue' : 'rgba(0,0,255,0.15)' };
+    }
+  }
 `;
 
 const DonateBlock = styled.div`
   display: flex;
   justify-content: center;
   align-items: baseline;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-bottom: 2rem;
 `;
 
@@ -75,15 +82,21 @@ const Video = styled.video`
 const BBCLink = styled.a`
 `;
 
-const Caption = styled.caption`
+const Caption = styled.span`
   display: block;
   margin: 0.2rem;
+  font-size: 0.8rem;
 `
 
 const Tabs = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 1.8rem;
+`;
+
+const Disclaimer = styled.p`
+  font-size: 0.6rem;
+  color: grey;
 `;
 
 const ALL = 'all';
@@ -108,7 +121,7 @@ const Home = () => {
     <div>
       <GlobalStyle />
       <Title>Glastolapse!</Title>
-      <SubTitle>Timelapse of the <BBCLink href="https://www.bbc.co.uk/events/glastonbury/webcam">BBC glastonbury webcam</BBCLink> - I claim no rights over the content</SubTitle>
+      <SubTitle>Timelapse of the <BBCLink href="https://www.bbc.co.uk/events/glastonbury/webcam">BBC glastonbury webcam</BBCLink></SubTitle>
 
       <DonateBlock>
         <span>If you like this then</span><DonateLink href="https://www.wateraid.org/uk/donate">donate to <WaterAidLogo /></DonateLink>
@@ -120,14 +133,18 @@ const Home = () => {
       </Tabs>
 
       <Caption>Zoomed view of the central festival</Caption>
-      <Video className="video" autoPlay muted controls>
+      <Video className="video" autoPlay muted controls loop>
         <source src={`https://videos.glastolapse.com/${targetPath}/pyramid.mp4`} type="video/mp4" />
       </Video>
 
       <Caption>Full site panorama</Caption>
-      <Video className="video" muted controls>
+      <Video className="video" muted controls loop>
         <source src={`https://videos.glastolapse.com/${targetPath}/panorama.mp4`} type="video/mp4" />
       </Video>
+
+      <Disclaimer>
+        DISCLAIMER: This site is not affiliated with WaterAid, the BBC, Glastonbury Festivals, panomax, or any other company. The content here is created using images readily accessible on the web, I do not claim ownership or copyright over the source.
+      </Disclaimer>
     </div>
   )
 }

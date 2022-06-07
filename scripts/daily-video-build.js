@@ -29,12 +29,12 @@ const run = async () => {
     // await downloadDay({ dateString: targetDay, type });
 
     // Create targetDays video for this type
-    console.log('===== Processing targetDays video =====')
+    console.log(`===== Processing ${targetDay} ${type} video =====`)
     execSync(`./scripts/process-day.sh ${type} ${targetDay.replace(/-/g, '/')}`, shellOptions);
 
     // Create the video for the whole year
     // TODO - This is very slow - could probably just concat the new one to the old one to speed it up
-    console.log('===== Processing full year video =====')
+    console.log(`===== Processing full year ${type} video =====`)
     execSync(`./scripts/process-year.sh ${type} ${targetDay.replace(/-.*$/, '')}`, shellOptions);
   }
 }
