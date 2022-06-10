@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 /*
  * Create form to request access token from Google's OAuth 2.0 server.
  */
-function onSubmit() {
+function onSubmit(origin) {
   // Create <form> element to submit parameters to OAuth 2.0 endpoint.
   const form = document.createElement('form');
   form.setAttribute('method', 'GET'); // Send as a GET request.
@@ -12,7 +12,7 @@ function onSubmit() {
   // Parameters to pass to OAuth 2.0 endpoint.
   const params = {
     client_id: '580658835996-0keodgpafcb5vfbv55jb0t3ed9uil932.apps.googleusercontent.com',
-    redirect_uri: 'http://localhost:8000/youtube-redirect',
+    redirect_uri: `${origin}/youtube-redirect`,
     response_type: 'token',
     scope: 'https://www.googleapis.com/auth/youtube.upload',
   };
@@ -36,14 +36,14 @@ const Thing = ({ location }) => {
 
   useEffect(() => {
     if (auto) {
-      onSubmit();
+      onSubmit(location.origin);
     }
-  }, [auto])
+  }, [auto, location.origin])
 
   return (
     <div>
       <h1>Request access</h1>
-      <button onClick={onSubmit}>
+      <button onClick={() => onSubmit(location.origin)}>
         Get token
       </button>
     </div>
