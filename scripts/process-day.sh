@@ -24,11 +24,11 @@ INPUT_GLOB=./static/images/$DATE/$TYPE/*.jpg
 mkdir -p $OUT_DIR
 rm -f $OUT_FILE
 
-FRAMERATE=12
-DELAY1=0.08334 # 1 frame at 12 FPS
-DELAY2=0.16667 # 2 frame at 12 FPS
+FRAMERATE=8
+DELAY1=0.125 # 1 frame at 8 FPS
+DELAY2=0.25 # 2 frame at 8 FPS
 
-# Combine the images at 12 FPS
+# Combine the images at 8 FPS
 # Overlay a trailing and leading image at 0.2 opacity to smooth it
 ffmpeg \
   -an \

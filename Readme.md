@@ -1,5 +1,14 @@
 # Gif of glasto webcam
 
+## How to use
+- Go to https://glastolapse.com/youtube-request
+- Authorize glastolapse to act on your behalf
+- copy the command you wish to run
+  - today = run after sunset before midnight - it will download todays images + make todays video (and the full one)
+  - yesterday = run after midnight - it will download yesterdays images + make yesterdays video (and the full one)
+
+If you need to backfill all the images - do the above, but edit scripts/index.js to download the full year (it's commented out)
+
 ## TODO - Fix skipped problems
 - gatsby query params are fucked
 - Upload timed out - need to break down the script / sync requests

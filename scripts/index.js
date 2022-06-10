@@ -21,14 +21,14 @@ const TARGET_DAYS = {
   today: new Date(),
 }
 
-const run = async (accessToken, skipDownload, skipCreate) => {
-  const targetDay = 'yesterday'
-
+const run = async (targetDay, accessToken, skipDownload, skipCreate) => {
   // TODO change this - download all images we don't have e.g. find the last folder we do have and download-day from there
   // Or add back caching
+
   if (!skipDownload) {
     // await downloadYear(targetDay);
-    await downloadDay(targetDay);
+    await downloadDay({ dateString: extractDateString(TARGET_DAYS[targetDay]), type: 'panorama' });
+    await downloadDay({ dateString: extractDateString(TARGET_DAYS[targetDay]), type: 'pyramid' });
   }
 
   const targetDateString = extractDateString(TARGET_DAYS[targetDay]).replace(/-/g, '/');

@@ -7,7 +7,12 @@ const Test = ({ location }) => {
   return (
     <div>
       <h2>Redirected</h2>
-      <code>node ./scripts {token}</code>
+      <h3>Yesterday</h3>
+      <code>node ./scripts yesterday {token}</code>
+      <br />
+      <br />
+      <h3>Today (after 11pm)</h3>
+      <code>node ./scripts today {token}</code>
       <br />
       <br />
       <a href="/youtube-request?auto=true">Redo</a>
