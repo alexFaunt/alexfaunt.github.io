@@ -1,0 +1,77 @@
+const downloadYear = require('./download-year');
+const uploadVideo = require('./upload-video');
+
+const child_process = require('child_process')
+const path = require('path');
+const fs = require('fs');
+const { promisify } = require('util');
+
+const { extractDateString, ONE_DAY } = require('../src/helpers');
+
+const exec = promisify(child_process.exec);
+
+const shellOptions = {
+  cwd: path.resolve(__dirname, '../'),
+}
+
+const TARGET_DAYS = {
+  yesterday: new Date(Date.now() - ONE_DAY),
+  today: new Date(),
+}
+
+const run = async (accessToken, skipDownload, skipCreate) => {
+  const targetDay = 'yesterday'
+
+  // TODO change this - download all images we don't have e.g. find the last folder we do have and download-day from there
+  // Or add back caching
+  if (!skipDownload) {
+    await downloadYear(targetDay);
+    // await downloadDay(targetDay);
+  }
+
+  const targetDateString = extractDateString(TARGET_DAYS[targetDay]).replace(/-/g, '/');
+  const targetYearString = targetDateString.replace(/\/.*/, '');
+
+  if (!skipCreate) {
+    // create the videos for yesterday + full year
+    console.log('creating videos')
+    await Promise.all([
+      exec(`./scripts/process-day.sh panorama ${targetDateString}`, shellOptions),
+      exec(`./scripts/process-day.sh pyramid ${targetDateString}`, shellOptions),
+      exec(`./scripts/process-year.sh panorama ${targetYearString}`, shellOptions),
+      exec(`./scripts/process-year.sh pyramid ${targetYearString}`, shellOptions),
+    ]);
+  }
+
+  // upload-video for each
+  const videoIds = await Promise.all([
+    uploadVideo({ accessToken, targetDate: targetDateString, type: 'panorama' }),
+    uploadVideo({ accessToken, targetDate: targetDateString, type: 'pyramid' }),
+    uploadVideo({ accessToken, targetDate: targetYearString, type: 'panorama' }),
+    uploadVideo({ accessToken, targetDate: targetYearString, type: 'pyramid' }),
+  ]);
+
+  await exec('git stash');
+
+  console.log('replacing ids', videoIds.join(', '));
+  const indexPage = path.resolve(__dirname, '../src/pages/index.jsx');
+  const content = fs.readFileSync(indexPage, 'utf-8')
+    .replace(/const DAY_PANORAMA_ID = '(\w*)';/, `const DAY_PANORAMA_ID = '${videoIds[0]}';`)
+    .replace(/const DAY_PYRAMID_ID = '(\w*)';/, `const DAY_PYRAMID_ID = '${videoIds[1]}';`)
+    .replace(/const FULL_PANORAMA_ID = '(\w*)';/, `const FULL_PANORAMA_ID = '${videoIds[2]}';`)
+    .replace(/const FULL_PYRAMID_ID = '(\w*)';/, `const FULL_PYRAMID_ID = '${videoIds[3]}';`);
+
+  fs.writeFileSync(indexPage, content, 'utf-8');
+
+  console.log('pushing new ids!');
+
+  await exec('git add ./src/pages/index.jsx');
+  await exec(`git commit -m 'update video ids'`);
+  await exec('git push');
+  await exec('git stash pop');
+
+  console.log('done!');
+}
+
+const [token, skipDownloadStr, skipCreateStr] = process.argv.slice(2);
+run(token, skipDownloadStr === 'true', skipCreateStr === 'true');
