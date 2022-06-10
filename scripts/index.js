@@ -53,7 +53,6 @@ const run = async (accessToken, skipDownload, skipCreate) => {
     uploadVideo({ accessToken, videoFolder: targetYearString, fromDate: START_DATES[targetYearString].replace(/-/g, '/'), toDate: targetDateString, type: 'pyramid' }),
   ]);
 
-
   await exec('git stash');
 
   console.log('replacing ids', videoIds.join(', '));

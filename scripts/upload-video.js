@@ -2,14 +2,16 @@ const fs = require('fs');
 const path = require('path');
 const { google } = require('googleapis');
 
+const betterReadableDate = (dateString) => dateString.split('/').reverse().join('/');
+
 const uploadVideo = async ({ accessToken, videoFolder, fromDate, toDate, type }) => {
   const videoFilePath = path.resolve(__dirname, `../static/videos/${videoFolder}/${type}.mp4`);
 
   const service = google.youtube('v3')
 
-  console.log('Uploading video', videoFolder, type)
+  const dateString = fromDate === toDate ? betterReadableDate(fromDate) : `${betterReadableDate(fromDate)} to ${betterReadableDate(toDate)}`;
 
-  const dateString = fromDate === toDate ? fromDate : `${fromDate} to ${toDate}`;
+  console.log('Uploading video', videoFolder, dateString, type)
 
   const res = await service.videos.insert({
     access_token: accessToken,
