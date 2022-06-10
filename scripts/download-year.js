@@ -1,14 +1,6 @@
 const downloadDay = require('./download-day');
 const { ONE_DAY, extractDateString } = require('../src/helpers');
-
-// TODO - when do we want to _stop_ running this? like 2 days after or later?
-// How does this play with github daily actions
-
-// TODO accept args
-
-const START_DATES = {
-  2022: '2022-06-01',
-}
+const { START_DATES } = require('./config');
 
 const TARGET_DAYS = {
   yesterday: new Date(Date.now() - ONE_DAY),
@@ -37,8 +29,5 @@ const downloadYear = async (targetDay) => {
 
   console.log('Fetched days', allDays.join(', '))
 }
-
-// TODO - see if we're running from CLI or not - if we are need to invoke
-// downloadYear(...process.argv.slice(2));
 
 module.exports = downloadYear;

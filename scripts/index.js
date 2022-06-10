@@ -6,6 +6,8 @@ const path = require('path');
 const fs = require('fs');
 const { promisify } = require('util');
 
+const { START_DATES } = require('./config');
+
 const { extractDateString, ONE_DAY } = require('../src/helpers');
 
 const exec = promisify(child_process.exec);
@@ -25,8 +27,8 @@ const run = async (accessToken, skipDownload, skipCreate) => {
   // TODO change this - download all images we don't have e.g. find the last folder we do have and download-day from there
   // Or add back caching
   if (!skipDownload) {
-    await downloadYear(targetDay);
-    // await downloadDay(targetDay);
+    // await downloadYear(targetDay);
+    await downloadDay(targetDay);
   }
 
   const targetDateString = extractDateString(TARGET_DAYS[targetDay]).replace(/-/g, '/');
@@ -45,11 +47,12 @@ const run = async (accessToken, skipDownload, skipCreate) => {
 
   // upload-video for each
   const videoIds = await Promise.all([
-    uploadVideo({ accessToken, targetDate: targetDateString, type: 'panorama' }),
-    uploadVideo({ accessToken, targetDate: targetDateString, type: 'pyramid' }),
-    uploadVideo({ accessToken, targetDate: targetYearString, type: 'panorama' }),
-    uploadVideo({ accessToken, targetDate: targetYearString, type: 'pyramid' }),
+    uploadVideo({ accessToken, videoFolder: targetDateString, fromDate: targetDateString, toDate: targetDateString, type: 'panorama' }),
+    uploadVideo({ accessToken, videoFolder: targetDateString, fromDate: targetDateString, toDate: targetDateString, type: 'pyramid' }),
+    uploadVideo({ accessToken, videoFolder: targetYearString, fromDate: START_DATES[targetYearString].replace(/-/g, '/'), toDate: targetDateString, type: 'panorama' }),
+    uploadVideo({ accessToken, videoFolder: targetYearString, fromDate: START_DATES[targetYearString].replace(/-/g, '/'), toDate: targetDateString, type: 'pyramid' }),
   ]);
+
 
   await exec('git stash');
 
@@ -71,7 +74,9 @@ const run = async (accessToken, skipDownload, skipCreate) => {
   await exec('git stash pop');
 
   console.log('done!');
+
+  // TODO unpublish old full timelapse videos?
 }
 
-const [token, skipDownloadStr, skipCreateStr] = process.argv.slice(2);
-run(token, skipDownloadStr === 'true', skipCreateStr === 'true');
+const [targetDay, token, skipDownloadStr, skipCreateStr] = process.argv.slice(2);
+run(targetDay, token, skipDownloadStr === 'true', skipCreateStr === 'true');

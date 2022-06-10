@@ -1,27 +1,23 @@
 const fs = require('fs');
 const path = require('path');
 const { google } = require('googleapis');
-const OAuth2 = google.auth.OAuth2;
 
-/**
- * Upload the video file.
- *
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
- */
-const uploadVideo = async ({ accessToken, targetDate, type }) => {
-  const videoFilePath = path.resolve(__dirname, `../static/videos/${targetDate}/${type}.mp4`);
+const uploadVideo = async ({ accessToken, videoFolder, fromDate, toDate, type }) => {
+  const videoFilePath = path.resolve(__dirname, `../static/videos/${videoFolder}/${type}.mp4`);
 
   const service = google.youtube('v3')
 
-  console.log('Uploading video', targetDate, type)
+  console.log('Uploading video', videoFolder, type)
+
+  const dateString = fromDate === toDate ? fromDate : `${fromDate} to ${toDate}`;
 
   const res = await service.videos.insert({
     access_token: accessToken,
     part: 'snippet,status',
     requestBody: {
       snippet: {
-        title: `Glastonbury ${type} Timelapse - ${targetDate}`,
-        description: `Timelapse of glastonbury festival site ${targetDate} generated from the BBC webcam feed`,
+        title: `Glastonbury ${type.charAt(0).toUpperCase()}${type.substring(1)} Timelapse - ${dateString}`,
+        description: 'Timelapse of glastonbury festival site generated from the BBC webcam feed',
         tags: ['glastonbury', 'festival', 'timelapse'],
       },
       status: {
@@ -35,13 +31,9 @@ const uploadVideo = async ({ accessToken, targetDate, type }) => {
     },
   });
 
-  console.log('RES', res)
-
-  console.log('Done!', targetDate, type);
+  console.log('Done!', videoFolder, type);
 
   return res.id;
 }
 
 module.exports = uploadVideo;
-
-// uploadVideo(process.argv.slice(2));
