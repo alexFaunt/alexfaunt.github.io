@@ -38,4 +38,7 @@ const downloadYear = async (targetDay) => {
   console.log('Fetched days', allDays.join(', '))
 }
 
-downloadYear(...process.argv.slice(2));
+// TODO - see if we're running from CLI or not - if we are need to invoke
+// downloadYear(...process.argv.slice(2));
+
+module.exports = downloadYear;

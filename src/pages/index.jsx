@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-
 import WaterAid from '../atoms/water-aid';
 import YouTube from 'react-youtube';
+import { useEffect } from 'react';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -141,8 +141,7 @@ const StyledYoutube = styled(YouTube)`
   }
 `;
 
-// TODO action to auto upload youtube videos and create a PR with new IDs
-// Seems like it doesn't exist...
+// TODO - query youtube API and figure these out using the channel id
 const DAY_PYRAMID_ID = '_Xs36WnHLnM';
 const FULL_PYRAMID_ID = 'KQUs56mtahw';
 
@@ -188,17 +187,11 @@ const Home = ({ location }) => {
         <PyramidOuter>
           <StyledYoutube iframeClassName='video-iframe' videoId={pyramidId} opts={youtubeOpts} />
         </PyramidOuter>
-        {/* <Video className="video" autoPlay muted controls loop key={showAll ? 'all-1' : 'yday-1' }>
-          <source src={`https://videos.glastolapse.com/${targetPath}/pyramid.mp4`} type="video/mp4" />
-        </Video> */}
 
         <Caption>Full site panorama</Caption>
         <PanoramaOuter>
           <StyledYoutube iframeClassName='video-iframe' videoId={panoramaId} opts={youtubeOpts} />
         </PanoramaOuter>
-        {/* <Video className="video" muted controls loop key={showAll ? 'all-2' : 'yday-2' }>
-          <source src={`https://videos.glastolapse.com/${targetPath}/panorama.mp4`} type="video/mp4" />
-        </Video> */}
       </div>
       <Apology>
         Sorry for the youtube links - the raw files are huge and struggling to host them effectively

@@ -6,3 +6,5 @@ public
 .cache
 static/videos
 static/images
+# .env
+.env.development
