@@ -1,4 +1,5 @@
 const downloadYear = require('./download-year');
+const downloadDay = require('./download-day');
 const uploadVideo = require('./upload-video');
 
 const child_process = require('child_process')
