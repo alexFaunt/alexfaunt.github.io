@@ -33,9 +33,9 @@ const uploadVideo = async ({ accessToken, videoFolder, fromDate, toDate, type })
     },
   });
 
-  console.log('Done!', videoFolder, type);
+  console.log('Done!', videoFolder, type, res.data);
 
-  return res.id;
+  return res.data.id;
 }
 
 module.exports = uploadVideo;
