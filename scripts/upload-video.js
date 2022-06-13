@@ -33,7 +33,7 @@ const uploadVideo = async ({ accessToken, videoFolder, fromDate, toDate, type })
     },
   });
 
-  console.log('Done!', videoFolder, type, res.data);
+  console.log('Done upload!', videoFolder, type);
 
   return res.data.id;
 }

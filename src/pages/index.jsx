@@ -142,7 +142,7 @@ const StyledYoutube = styled(YouTube)`
 `;
 
 // TODO - query youtube API and figure these out using the channel id
-const DAY_PYRAMID_ID = 'dZSUn9X-KpA';
+const DAY_PYRAMID_ID = '1f5vQ02WVoY';
 const FULL_PYRAMID_ID = 'PgP-ob-rZtI';
 
 const DAY_PANORAMA_ID = 'RIzNoVP7WFM';

@@ -54,9 +54,8 @@ const run = async (targetDay, accessToken, skipDownload, skipCreate) => {
     uploadVideo({ accessToken, videoFolder: targetYearString, fromDate: START_DATES[targetYearString].replace(/-/g, '/'), toDate: targetDateString, type: 'pyramid' }),
   ]);
 
-  await exec('git stash');
-
   console.log('replacing ids', videoIds.join(', '));
+
   const indexPage = path.resolve(__dirname, '../src/pages/index.jsx');
   const content = fs.readFileSync(indexPage, 'utf-8')
     .replace(/const DAY_PANORAMA_ID = '(\w*)';/, `const DAY_PANORAMA_ID = '${videoIds[0]}';`)
@@ -71,7 +70,6 @@ const run = async (targetDay, accessToken, skipDownload, skipCreate) => {
   await exec('git add ./src/pages/index.jsx');
   await exec(`git commit -m 'update video ids'`);
   await exec('git push');
-  await exec('git stash pop');
 
   console.log('done!');
 
