@@ -142,11 +142,11 @@ const StyledYoutube = styled(YouTube)`
 `;
 
 // TODO - query youtube API and figure these out using the channel id
-const DAY_PYRAMID_ID = '1f5vQ02WVoY';
+const DAY_PYRAMID_ID = 'viH_5kZVyzU';
 const FULL_PYRAMID_ID = 'PgP-ob-rZtI';
 
-const DAY_PANORAMA_ID = 'RIzNoVP7WFM';
-const FULL_PANORAMA_ID = 'O9nNIW_wt8g';
+const DAY_PANORAMA_ID = 'PUMWFWRa6KU';
+const FULL_PANORAMA_ID = 'pA0xCuh3eoc';
 
 const youtubeOpts = {
   playerVars: {
