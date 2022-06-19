@@ -145,7 +145,7 @@ const StyledYoutube = styled(YouTube)`
 const DAY_PYRAMID_ID = 'QzDh0Yu-uYo';
 const FULL_PYRAMID_ID = 'WNstLYXhGwk';
 
-const DAY_PANORAMA_ID = 'tiiVJeU9oV4';
+const DAY_PANORAMA_ID = 'cCNqFJF17Ws';
 const FULL_PANORAMA_ID = 'JEPhI8yXWNA';
 
 const youtubeOpts = {
@@ -176,10 +176,11 @@ const Home = ({ location }) => {
         <span>If you like this then</span><DonateLink href="https://www.wateraid.org/uk/donate">donate to <WaterAidLogo /></DonateLink>
       </DonateBlock>
 
-      <Tabs>
+      {/* Not showing full length ones, they're too big */}
+      {/* <Tabs>
         <DateTab onClick={() => setShowAll(false)} selected={!showAll}>yesterday</DateTab>
         <DateTab onClick={() => setShowAll(true)} selected={showAll}>1st June to yesterday</DateTab>
-      </Tabs>
+      </Tabs> */}
 
       {/* TODO hacky key swapping to force re-render. Just swapping out the url doesn't restart video */}
       <div key={showAll ? 'all' : 'yday' }>
