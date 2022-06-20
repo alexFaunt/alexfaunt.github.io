@@ -41,8 +41,8 @@ const run = async (targetDay, accessToken, skipDownload, skipCreate) => {
     await Promise.all([
       exec(`./scripts/process-day.sh panorama ${targetDateString}`, shellOptions),
       exec(`./scripts/process-day.sh pyramid ${targetDateString}`, shellOptions),
-      exec(`./scripts/process-year.sh panorama ${targetYearString}`, shellOptions),
-      exec(`./scripts/process-year.sh pyramid ${targetYearString}`, shellOptions),
+      // exec(`./scripts/process-year.sh panorama ${targetYearString}`, shellOptions),
+      // exec(`./scripts/process-year.sh pyramid ${targetYearString}`, shellOptions),
     ]);
   }
 
@@ -50,8 +50,8 @@ const run = async (targetDay, accessToken, skipDownload, skipCreate) => {
   const videoIds = await Promise.all([
     uploadVideo({ accessToken, videoFolder: targetDateString, fromDate: targetDateString, toDate: targetDateString, type: 'panorama' }),
     uploadVideo({ accessToken, videoFolder: targetDateString, fromDate: targetDateString, toDate: targetDateString, type: 'pyramid' }),
-    uploadVideo({ accessToken, videoFolder: targetYearString, fromDate: START_DATES[targetYearString].replace(/-/g, '/'), toDate: targetDateString, type: 'panorama' }),
-    uploadVideo({ accessToken, videoFolder: targetYearString, fromDate: START_DATES[targetYearString].replace(/-/g, '/'), toDate: targetDateString, type: 'pyramid' }),
+    // uploadVideo({ accessToken, videoFolder: targetYearString, fromDate: START_DATES[targetYearString].replace(/-/g, '/'), toDate: targetDateString, type: 'panorama' }),
+    // uploadVideo({ accessToken, videoFolder: targetYearString, fromDate: START_DATES[targetYearString].replace(/-/g, '/'), toDate: targetDateString, type: 'pyramid' }),
   ]);
 
   console.log('replacing ids', videoIds.join(', '));
@@ -60,8 +60,8 @@ const run = async (targetDay, accessToken, skipDownload, skipCreate) => {
   const content = fs.readFileSync(indexPage, 'utf-8')
     .replace(/const DAY_PANORAMA_ID = '(\w*)';/, `const DAY_PANORAMA_ID = '${videoIds[0]}';`)
     .replace(/const DAY_PYRAMID_ID = '(\w*)';/, `const DAY_PYRAMID_ID = '${videoIds[1]}';`)
-    .replace(/const FULL_PANORAMA_ID = '(\w*)';/, `const FULL_PANORAMA_ID = '${videoIds[2]}';`)
-    .replace(/const FULL_PYRAMID_ID = '(\w*)';/, `const FULL_PYRAMID_ID = '${videoIds[3]}';`);
+    // .replace(/const FULL_PANORAMA_ID = '(\w*)';/, `const FULL_PANORAMA_ID = '${videoIds[2]}';`)
+    // .replace(/const FULL_PYRAMID_ID = '(\w*)';/, `const FULL_PYRAMID_ID = '${videoIds[3]}';`);
 
   fs.writeFileSync(indexPage, content, 'utf-8');
 
