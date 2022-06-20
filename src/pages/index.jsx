@@ -145,7 +145,7 @@ const StyledYoutube = styled(YouTube)`
 const DAY_PYRAMID_ID = 'QzDh0Yu-uYo';
 const FULL_PYRAMID_ID = 'WNstLYXhGwk';
 
-const DAY_PANORAMA_ID = 'cCNqFJF17Ws';
+const DAY_PANORAMA_ID = 'y0CgC9Itifo';
 const FULL_PANORAMA_ID = 'JEPhI8yXWNA';
 
 const youtubeOpts = {
