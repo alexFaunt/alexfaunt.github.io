@@ -58,8 +58,8 @@ const run = async (targetDay, accessToken, skipDownload, skipCreate) => {
 
   const indexPage = path.resolve(__dirname, '../src/pages/index.jsx');
   const content = fs.readFileSync(indexPage, 'utf-8')
-    .replace(/const DAY_PANORAMA_ID = '(\w*)';/, `const DAY_PANORAMA_ID = '${videoIds[0]}';`)
-    .replace(/const DAY_PYRAMID_ID = '(\w*)';/, `const DAY_PYRAMID_ID = '${videoIds[1]}';`)
+    .replace(/const DAY_PANORAMA_ID = '([^\']*)';/, `const DAY_PANORAMA_ID = '${videoIds[0]}';`)
+    .replace(/const DAY_PYRAMID_ID = '([^\']*)';/, `const DAY_PYRAMID_ID = '${videoIds[1]}';`)
     // .replace(/const FULL_PANORAMA_ID = '(\w*)';/, `const FULL_PANORAMA_ID = '${videoIds[2]}';`)
     // .replace(/const FULL_PYRAMID_ID = '(\w*)';/, `const FULL_PYRAMID_ID = '${videoIds[3]}';`);
 
